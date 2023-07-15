@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Single-Page Application</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <script>
+        function fetchData(route) {
+            $.ajax({
+                url: 'http://127.0.0.1:5000/' + user + '/' + route,  // Flask API endpoint
+                type: 'GET',
+                success: function (response) {
+                    if (response.success == 1) {
+                        document.body.innerHTML = response.data
+                    }
+                    else {
+                        document.body.innerHTML = 'hello world!'
+                    }
+                    // Handle the success response here
+                },
+                error: function (error) {
+                    console.error(error);
+                    document.body.innerHTML = 'hello world!'
+                    // Handle the error response here
+                }
+            });
+        }
+            // Extract the page parameter from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const page = urlParams.get('page');
+            const user = urlParams.get('user');
+
+            if(user != null && page != null) {
+                // Fetch data for the specified page
+                fetchData(page);
+            }
+            else {
+                // Redirect to the home page
+                document.body.innerHTML = 'hello world!'
+            }
+
+    </script>
+</body>
+
+</html>

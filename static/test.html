@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>test</title>
+</head>
+<body>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Form Submission</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </head>
+    <body>
+        <form id="myForm">
+            <label for="code">Code:</label>
+            <input type="text" id="code" name="code" required>
+            <br>
+            <label for="user">user:</label>
+            <input type="text" id="user" name="user" required>
+            <br>
+            <label for="route">Route:</label>
+            <input type="text" id="route" name="route" required>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+    
+        <script>
+            $(document).ready(function() {
+                $('#myForm').submit(function(event) {
+                    event.preventDefault();  // Prevent the default form submission
+                    var form_data = $(this).serializeArray();  // Serialize the form data
+                    $.ajax({
+                        url: 'http://127.0.0.1:5000/',  // Flask API endpoint
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(form_data),
+                        success: function(response) {
+                            if (response.success == 1) {
+                                openpage(response.page, response.user)
+                            }
+                            // Handle the success response here
+                        },
+                        error: function(error) {
+                            console.error(error);
+                            // Handle the error response here
+                        }
+                    });
+                });
+            });
+            function openpage(route, user) {
+                $.ajax({
+                    url: 'http://127.0.0.1:5000/' + user + "/" + route,  // Flask API endpoint
+                    type: 'GET',
+                    success: function(response) {
+                        if (response.success == 1) {
+                            document.body.innerHTML = response.data
+                        }
+                        // Handle the success response here
+                    },
+                    error: function(error) {
+                        console.error(error);
+                        // Handle the error response here
+                    }
+                });
+            }
+        </script>
+    </body>
+    </html>
+    
+</body>
+</html>

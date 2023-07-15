@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Single-Page Application</title>
+</head>
+
+<body>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const name = urlParams.get('name');
+
+        if (name == null) {
+            document.body.innerHTML = 'name not defined in url'
+        }
+        else {
+            document.body.innerHTML = 'hello ' + name
+        }
+
+    </script>
+</body>
+
+</html>
